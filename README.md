@@ -14,9 +14,12 @@
 - [Where to from here?](#where-to-from-here)
 - [Further reading](#further-reading)
 
-## Note
 
-In case you get stuck or need a reference to compare your implementation with, the full source is available at [https://github.com/awssgr/voterocket](https://github.com/awssgr/voterocket).
+## If you get stuck or get an error
+
+- In case you get stuck or need a reference to compare your implementation with, the full source is available at [https://github.com/awssgr/voterocket](https://github.com/awssgr/voterocket).
+- Ask your lab co-ordinator for help.
+- [Raise an issue](https://github.com/awssgr/voterocket-lab/issues/new) explaining the problem.
 
 ## Getting Started - Creating the React application
 
