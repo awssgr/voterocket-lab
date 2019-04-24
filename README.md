@@ -86,7 +86,8 @@ Please tell us about your project
 - Build Command:  npm run-script `build`
 - Start Command: npm run-script `start`
 - Do you want to use an AWS profile? `Yes`
-- Please choose the profile you want to use: `default`. Choose `default` - (The `default` profile should already configured correctly.)
+- Please choose the profile you want to use: `default`. 
+  Choose `default` - (The `default` profile should already configured correctly.)
 
 The AWS Amplify CLI will initialise a new project inside your React project & you will see a new folder: `amplify`. The files in this folder hold your project configuration.
 
@@ -199,7 +200,7 @@ Will return only the `Candidate` whose name contains **Lambda**
 
 ## Adding custom business logic to the GraphQL API
 
-Because this is a voting application we need to find a way to record a vote for a candidate. While we could use the `updateCandidate` mutation and resolver that was generated for us, this relies on having to increment the value on the client. It can't be guaranteed that all clients will have the same value for the vote count—it's much more robust to do this server-side.[^1]
+Because this is a voting application we need to find a way to record a vote for a candidate. While we could use the `updateCandidate` mutation and resolver that was generated for us, this relies on having to increment the value on the client. It can't be guaranteed that all clients will have the same value for the vote count—it's much more robust to do this server-side<sup><a name="fnote_ref_1">[1.](#fnote1)</a></sup>.
 
 This is how we would it if this were the AWS CLI:
 
@@ -212,7 +213,7 @@ aws dynamodb update-item \
     --expression-attribute-names '{ "#votesField": "votes" }'
 ```
 
-For our GraphQL API to execute a similar `update-item` we need to create a custom resolver[^2].
+For our GraphQL API to execute a similar `update-item` we need to create a custom resolver<sup><a name="fnote_ref_2">[2.](#fnote2)</a></sup>.
 
 ### Add `castVote` to your GraphQL schema
 
@@ -368,10 +369,8 @@ This will update the React state using the GraphQL subscription we added to the 
 - The AWS AppSync community: [https://github.com/aws/aws-appsync-community ](https://github.com/aws/aws-appsync-community)
 - Full code for this lab at [https://github.com/awssgr/voterocket ](https://github.com/awssgr/voterocket)
 
+---
 
+<a name="fnote1">[1.](#fnote_ref_1)</a> A resolver is a function that converts the GraphQL payload to the underlying storage system protocol and executes if the caller is authorised to invoke it. Resolvers are comprised of **request** and **response mapping** templates, which contain transformation and execution logic. AWS AppSync uses [mapping templates](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-mapping-template-reference.html#aws-appsync-resolver-mapping-template-reference), which are written with the [Apache Velocity Template Language (VTL)](https://velocity.apache.org/) and interpreted by AWS AppSync. There is a [resolver mapping template programming guide](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-mapping-template-reference-programming-guide.html#aws-appsync-resolver-mapping-template-reference-programming-guide) in the [AWS AppSync Developer Guide](https://docs.aws.amazon.com/appsync/latest/devguide/welcome.html) that covers how to write resolvers in detail.
 
-
-
-[^1]: A resolver is a function that converts the GraphQL payload to the underlying storage system protocol and executes if the caller is authorised to invoke it. Resolvers are comprised of **request** and **response mapping** templates, which contain transformation and execution logic. AWS AppSync uses [mapping templates](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-mapping-template-reference.html#aws-appsync-resolver-mapping-template-reference), which are written with the [Apache Velocity Template Language (VTL)](https://velocity.apache.org/) and interpreted by AWS AppSync. There is a [resolver mapping template programming guide](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-mapping-template-reference-programming-guide.html#aws-appsync-resolver-mapping-template-reference-programming-guide) in the [AWS AppSync Developer Guide](https://docs.aws.amazon.com/appsync/latest/devguide/welcome.html) that covers how to write resolvers in detail.
-
-[^2]: [Amplify Framework Custom Resolvers](https://aws-amplify.github.io/docs/cli/graphql#add-a-custom-resolver-that-targets-a-dynamodb-table-from-model). You also get the benefit of using [DynamoDB atomic counters](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithItems.html#WorkingWithItems.AtomicCounters)
+<a name="fnote2">[2.](#fnote_ref_2)</a> See [Amplify Framework Custom Resolvers](https://aws-amplify.github.io/docs/cli/graphql#add-a-custom-resolver-that-targets-a-dynamodb-table-from-model). You also get the benefit of using [DynamoDB atomic counters](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithItems.html#WorkingWithItems.AtomicCounters)
