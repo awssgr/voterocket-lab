@@ -7,7 +7,7 @@
 ## Topics we'll be covering:
 
 - [Getting Started - Creating the React application](#getting-started---creating-the-react-application)
-- [Installing the CLI &amp; initializing a new AWS Amplify project](#installing-the-cli--initializing-a-new-aws-amplify-project)
+- [Installing the CLI &amp; initialising a new AWS Amplify project](#installing-the-cli--initialising-a-new-aws-amplify-project)
 - [Adding a GraphQL API](#adding-a-graphql-api)
 - [Adding custom business logic to the GraphQL API](#adding-custom-business-logic-to-the-graphql-api)
 - [Creating the React front-end application](#creating-the-react-front-end-application)
@@ -35,7 +35,7 @@ cd voterocket
 yarn add aws-amplify aws-amplify-react
 ```
 
-## Installing the CLI & initializing a new AWS Amplify project
+## Installing the CLI & initialising a new AWS Amplify project
 
 ### Installing the CLI
 
@@ -47,7 +47,7 @@ npm install -g @aws-amplify/cli
 
 Now we need to configure the CLI with our credentials:
 
-### Initializing A New Project
+### Initialising A New Project
 
 ```bash
 $ amplify init
