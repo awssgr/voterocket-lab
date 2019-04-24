@@ -1,6 +1,8 @@
 # Build a modern serverless web application in minutes using the AWS Amplify Framework
 
-<center><img src="./images/voterocket.png" alt="Vote Rocket" width="200px" /></center>
+<p align="center">
+  <img src="./images/voterocket.png" alt="Vote Rocket" width="200">
+</p>
 
 [AWS Amplify](https://aws.amazon.com/amplify/) makes it easy for you to create, configure, and implement scalable mobile and web apps powered by AWS. In this workshop we'll learn how to build the Vote Rocket voting web application with [React](https://reactjs.org/) and the [Amplify Framework](https://aws-amplify.github.io/)
 
@@ -14,6 +16,13 @@
 - [Where to from here?](#where-to-from-here)
 - [Further reading](#further-reading)
 
+## Prerequisites
+
+This lab assumes the following:
+
+- It's being executed in an [AWS Cloud9](https://aws.amazon.com/cloud9/) instance provided by the lab co-ordinator.
+- This repository has been cloned into the default `~/environment` directory at `~/environment/voterocket-lab`
+- The `~/environment/voterocket-lab/setup.sh` script has been executed to install and configure dependencies.
 
 ## If you get stuck or get an error
 
@@ -25,7 +34,13 @@
 
 To get started, we first need to create a new React project & change into the new directory using the [Create React App CLI](https://github.com/facebook/create-react-app).
 
-Create the the React app (the `create-react-app` library has been pre-installed):
+Ensure you start at the default Cloud 9 directory:
+
+```
+cd ~/environment
+```
+
+Create the the React app (the `create-react-app` library will have been pre-installed by your lab co-ordinator):
 
 ```bash
 create-react-app voterocket
