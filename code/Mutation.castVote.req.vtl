@@ -1,0 +1,16 @@
+{
+  "version": "2017-02-28",
+  "operation": "UpdateItem",
+  "key": {
+    "id": { "S": "${context.arguments.input.id}" }
+  },
+  "update": {
+    "expression": "SET #votesField = #votesField + :i",
+    "expressionNames" : {
+      "#votesField" : "votes"
+    },
+    "expressionValues": {
+      ":i": { "N": 1 }
+    }
+  }
+}
