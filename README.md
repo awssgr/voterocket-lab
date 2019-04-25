@@ -34,7 +34,7 @@ This lab assumes the following:
 
 To get started, we first need to create a new React project & change into the new directory using the [Create React App CLI](https://github.com/facebook/create-react-app).
 
-Ensure you start at the default Cloud 9 directory:
+**Note:** Be sure to start the lab in the default Cloud 9 directory:
 
 ```
 cd ~/environment
