@@ -12,6 +12,7 @@
 - [Adding a GraphQL API](#adding-a-graphql-api)
 - [Adding custom business logic to the GraphQL API](#adding-custom-business-logic-to-the-graphql-api)
 - [Creating the React front-end application](#creating-the-react-front-end-application)
+- [Recap](#recap)
 - [Lab complete! Where to from here?](#lab-complete-where-to-from-here)
 
 ## Prerequisites
@@ -324,6 +325,23 @@ Pressing a button should cast a vote and the chart should update in real-time.
 
 If you open another browser, or a new window, you should see the same chart update in that window, also in real-time :-)
 
+## Recap
+
+In a short space of time you were able to create a working application from scratch with:
+
+A scalable serverless back-end:
+
+- Real-time GraphQL API, with a comprehensive set of queries, mutations and subscriptions for common [CRUDL](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) and custom operations
+- Database to hold our state with a lock-free atomic counter to hold vote counts
+- Custom business logic to connect the API to the database
+
+A browser-based React front-end:
+
+- Application-specific API client libraries that require minimal code to use for invoking the APIs.
+- Real-time, event-driven updates to the page with React and subscriptions
+
+Importantly this let's us focus on building what matters. **Our business logic**.
+
 ## Lab complete! Where to from here?
 
 The lab itself is now complete.
@@ -378,13 +396,15 @@ Also note how the `subscribe` method below automatically binds the subscription 
 
 This will update the React state using the GraphQL subscription we added to the `schema.graphql` file [above](#add-castvote-to-your-graphql-schema), and again is updated and managed automatically by the Framework.
 
-### Add authentication
-
-- Its really easy to add authentication using Amplify and [Amazon Cognito](https://aws.amazon.com/cognito/). In a [few lines of code](https://aws-amplify.github.io/docs/js/authentication#automated-setup) you will be able to add an authentication step so that only logged-in users can access your application.
-
 ### Host using the AWS Amplify Console
 
 - You can also very easily deploy the application using [AWS Amplify Console](https://aws.amazon.com/amplify/console/). Here are some [examples](https://aws.amazon.com/amplify/console/getting-started/) that demonstrate how to do this.
+
+### Use other Amplify Framework features and services
+
+The Amplify Framework is comprehensive and can let you integrate other services such as RESTful APIs, authentication, relational databases, analytics, storage, messaging, chat and others. For example, its really easy to add authentication using Amplify and [Amazon Cognito](https://aws.amazon.com/cognito/). In a [few lines of code](https://aws-amplify.github.io/docs/js/authentication#automated-setup) you will be able to add an authentication step so that only logged-in users can access your application.
+
+You can also use Amplify to develop applications for mobile apps using iOS and Android native APIs that could for example share the same back-end as this lab's.
 
 ### Further reading
 
