@@ -82,7 +82,7 @@ The AWS Amplify CLI will initialise a new project inside your React project & yo
 
 ## Adding a GraphQL API
 
-To add a GraphQL API (AppSync), we can use the following command:
+To add a GraphQL API ([AWS AppSync](https://aws.amazon.com/appsync/)), we can use the following command:
 
 ```bash
 amplify add api
