@@ -1,4 +1,4 @@
-# Build a modern serverless web application in minutes using the AWS Amplify Framework
+# Dev Labs: Build a modern serverless web application in minutes using the AWS Amplify Framework
 
 <p align="center">
   <img src="./images/voterocket.png" alt="Vote Rocket" width="200">
@@ -87,7 +87,7 @@ Please tell us about your project
 - Start Command: npm run-script `start`
 - Do you want to use an AWS profile? `Yes`
 - Please choose the profile you want to use: `default`. 
-  Choose `default` - (The `default` profile should already configured correctly.)
+  Choose `default` - (The `default` profile should have been configured by your lab co-ordinator)
 
 The AWS Amplify CLI will initialise a new project inside your React project & you will see a new folder: `amplify`. The files in this folder hold your project configuration.
 
