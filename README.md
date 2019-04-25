@@ -8,13 +8,11 @@
 
 ## Topics we'll be covering:
 
-- [Getting Started - Creating the React application](#getting-started---creating-the-react-application)
-- [Installing the CLI &amp; initialising a new AWS Amplify project](#installing-the-cli--initialising-a-new-aws-amplify-project)
+- [Getting started - create the application](#getting-started---create-the-application)
 - [Adding a GraphQL API](#adding-a-graphql-api)
 - [Adding custom business logic to the GraphQL API](#adding-custom-business-logic-to-the-graphql-api)
 - [Creating the React front-end application](#creating-the-react-front-end-application)
-- [Where to from here?](#where-to-from-here)
-- [Further reading](#further-reading)
+- [Lab complete! Where to from here?](#lab-complete-where-to-from-here)
 
 ## Prerequisites
 
@@ -30,9 +28,17 @@ This lab assumes the following:
 - Ask your lab co-ordinator for help.
 - [Raise an issue](https://github.com/awssgr/voterocket-lab/issues/new) explaining the problem.
 
-## Getting Started - Creating the React application
+## Installing the CLI & initialising a new AWS Amplify project
 
-To get started, we first need to create a new React project & change into the new directory using the [Create React App CLI](https://github.com/facebook/create-react-app).
+### Installing the CLI
+
+Install the AWS Amplify CLI:
+
+```bash
+npm install -g @aws-amplify/cli
+```
+
+## Getting started - create the application
 
 **Note:** Be sure to start the lab in the default Cloud 9 directory:
 
@@ -40,40 +46,22 @@ To get started, we first need to create a new React project & change into the ne
 cd ~/environment
 ```
 
-Create the the React app (the `create-react-app` library will have been pre-installed by your lab co-ordinator):
+Next, create a new React app using the [Create React App CLI](https://github.com/facebook/create-react-app). The `create-react-app` library will have been pre-installed by your lab co-ordinator.
 
 ```bash
 create-react-app voterocket
 ```
 
-Now change into the new `voterocket` directory & install the AWS Amplify & AWS Amplify React libraries:
+Change into the `voterocket` directory & configure your project to work with the Amplify Framework:
 
 ```bash
 cd voterocket
-yarn add aws-amplify aws-amplify-react
-```
-
-## Installing the CLI & initialising a new AWS Amplify project
-
-### Installing the CLI
-
-Next, we'll install the AWS Amplify CLI:
-
-```bash
-npm install -g @aws-amplify/cli
-```
-
-Now we need to configure the CLI with our credentials:
-
-### Initialising A New Project
-
-```bash
-$ amplify init
+amplify init
 ```
 
 You'll be prompted to answer some questions:
 
-- Enter a name for the project `hello`
+- Enter a name for the project `voterocket`
 - Enter a name for the environment `dev`
 - Choose your default editor: `None`
 - Choose the type of app that you're building `javascript`
@@ -83,10 +71,10 @@ Please tell us about your project
 - What javascript framework are you using `react`
 - Source Directory Path:  `src`
 - Distribution Directory Path: `build`
-- Build Command:  npm run-script `build`
-- Start Command: npm run-script `start`
+- Build Command:  `npm run-script build`
+- Start Command: `npm run-script start`
 - Do you want to use an AWS profile? `Yes`
-- Please choose the profile you want to use: `default`. 
+- Please choose the profile you want to use: `> default`. 
   Choose `default` - (The `default` profile should have been configured by your lab co-ordinator)
 
 The AWS Amplify CLI will initialise a new project inside your React project & you will see a new folder: `amplify`. The files in this folder hold your project configuration.
@@ -238,34 +226,46 @@ This will allow us to call a `castVote` mutation that will increment the vote co
 
 ### Add the `castVote` resolver templates:
 
-Copy the two files: 
+Copy the two `.vtl` files in this lab's `samples` folder into your project's `./amplify/backend/api/voterocket/resolvers` directory:
 
-- `./code/Mutation.castVote.req.vtl` and 
-- `./code/Mutation.castVote.res.vtl` 
+```bash
+cp ~/environment/voterocket-lab/samples/Mutation.castVote.*.vtl ./amplify/backend/api/voterocket/resolvers/
+```
 
-into your `./amplify/backend/api/voterocket/resolvers` directory.
+If you open the `Mutation.castVote.req.vtl` resolver in the editor you will see it looks a lot like `aws dynamodb update-item` CLI command above.
 
-The `Mutation.castVote.req.vtl` executes the same functionality as the `aws dynamodb update-item` CLI command above.
+We also need to tell Amplify to add these resolvers to your API by adding a new resolver resource to Amplify's CloudFormation templates.
 
-We also need to tell Amplify to add these resolvers to your API by adding a new resolver resource to the generated CloudFormation templates.
+Copy the `CustomResources.json` file in this lab's `samples` folder and overwrite the file at `./amplify/backend/api/voterocket/stacks/CustomResources.json`:
 
-Copy `./code/CustomResources.json` and overwrite the file at `amplify/backend/api/voterocket/build/stacks/CustomResources.json`
+```bash
+cp ~/environment/voterocket-lab/samples/CustomResources.json ./amplify/backend/api/voterocket/stacks/CustomResources.json
+```
 
 Run `amplify push` to provision the custom resolvers.
 
-When you run `amplify push` the custom resolvers will be added to the `amplify/backend/api/voterocket/build/resolvers/` along with the other auto-generated resolvers implied from the `Candidate`'s `@model` directive earlier.
+You will be asked:
+
+- Do you want to update code for your updated GraphQL API `Yes`
+- Do you want to generate GraphQL statements (queries, mutations and subscription) based on your schema types
+- This will overwrite your current graphql queries, mutations and subscriptions `Yes`
+
+Two things will happen behind the scenes:
+
+- The custom resolvers will be added to the `amplify/backend/api/voterocket/build/resolvers/` along with the other auto-generated resolvers implied from the `Candidate`'s `@model` directive earlier.
+- Amplify's generated queries, mutations and subscriptions Javascript source in `./src/graphql/` will be updated to reflect the new `castVote` functionality.
 
 ### Test the resolver in the AWS AppSync console
 
-In the AWS AppSync console, open your API & then click on **Queries**.
+If you'd like to test the new resolver, navigate to the AWS AppSync console, open your API & then click on **Queries**.
 
-Paste the following into the console and run it (use an `id` of a valid candidate in your database). You can find a valid `id` (UUID) by running the `listCandidates` GraphQL query as above.
+Paste the following into the console and run it (note to use an `id` of a valid candidate in your database). You can find a valid `id` (UUID) by running the `listCandidates` GraphQL query as above.
 
 ```graphql
 mutation CastVote {
   castVote(
     input: {
-      id: "put-an-own-uuid-in-here" 
+      id: "7f63b9cd-bd25-4c47-95a9-b530b2215c46" 
     }
   )
   {
@@ -281,33 +281,58 @@ Each time you execute the mutation it will increment the `votes` value by 1:
 
 ## Creating the React front-end application
 
-A boilerplate React app was created in [Getting Started - Creating the React Application](#getting-started---creating-the-react-application)
+We'll now add the front-end HTML and Javascript files to our front-end.
 
 ### Add dependencies
 
-We need to add the [Amplify Framework dependencies](https://aws-amplify.github.io/docs/js/react) to the app. We will also add [Chart.js](https://www.chartjs.org/) and the [React wrapper for Chart.js](https://github.com/jerairrest/react-chartjs-2) to display our vote counts as a chart.
+We need to add the [Amplify Framework dependencies](https://aws-amplify.github.io/docs/js/react) to the app. We will also add [Chart.js](https://www.chartjs.org/) and the [React wrapper for Chart.js](https://github.com/jerairrest/react-chartjs-2) to display our vote counts as a chart:
 
 Run `yarn add aws-amplify aws-amplify-react chart.js react-chartjs-2`
 
 ### Copy the front-end files
 
-- Copy `samples/code/App.js` into your `./src` folder, overwriting the file generated by `create-react-app`.
-- Copy `samples/code/index.html` into your `./public` folder, again overwriting the file generated by `create-react-app`.
+Copy `App.js` and `index.html` files in this lab's `samples` folder to your project: Note these will overwrite the existing files generated by `create-react-app` earlier.
+
+```bash
+cp ~/environment/voterocket-lab/samples/App.js ./src
+cp ~/environment/voterocket-lab/samples/index.html ./public
+```
 
 ### Try out the application
 
-- Run `yarn install` to install the dependencies.
-- Run `yarn start` will start the app. It should open your browser to [http://localhost:3000](http://localhost:3000) and you should be able to see the App in action. Pressing a button should cast a vote and the chart should update in real-time.
+- Run `yarn start` will start the app. 
 
-If you open another browser, or a new window, you should see the same chart update in that window, also in real-time.
+You should see something like this:
+
+```
+You can now view voterocket in the browser.
+
+  Local:            http://localhost:8080/
+  On Your Network:  http://172.31.40.28:8080/
+
+Note that the development build is not optimized.
+To create a production build, use yarn build.
+```
+
+- Because you are using Cloud9, `localhost` is not available. Click the menu `Preview | Preview Running Application` in the Cloud9 IDE to see the application running. You can also click the popout button to open it in a new browser window.
+
+![](images/c9_preview.png)
+
+Pressing a button should cast a vote and the chart should update in real-time.
 
 ![](images/voterocket_front_end.png)
 
+If you open another browser, or a new window, you should see the same chart update in that window, also in real-time :-)
+
+## Lab complete! Where to from here?
+
+The lab itself is now complete.
+
+Some optional topics to explore:
+
 ### Examining the App.js file 
 
-Open the `App.js` file you copied in your editor.
-
-Note how the file is set up to use and configure the Amplify Framework:
+If you'd like some more insights into how the front-end works, open the `App.js` file you copied in your editor. Note how the file is set up to use and configure the Amplify Framework:
 
 ```javascript
 import React, { Component } from 'react';
@@ -320,7 +345,9 @@ import aws_exports from './aws-exports';
 Amplify.configure(aws_exports);
 ```
 
-Note how the code in the `componentDidMount` method of the `App` class will query list of Candidates from the API and load it into the component's state when the page is first loaded.
+#### Fetching data from the GraphQL back-end
+
+Note also how the code in the `componentDidMount` method of the `App` class will query list of Candidates from the API and load it into the component's state when the page is first loaded.
 
 ```javascript
 const candidates = await API.graphql(graphqlOperation(queries.listCandidates))
@@ -331,7 +358,7 @@ this.setState({
 
 The arguments to the `graphqlOperation` method above (in this case `queries.listCandidates`) are managed and generated automatically by the Amplify Framework and were `import`ed from `./graphql/*` at the top of the file.
 
-### Real-time updates using GraphQL API subscriptions
+#### Real-time updates using GraphQL API subscriptions
 
 Also note how the `subscribe` method below automatically binds the subscription to our user interface, and will upgrade the counters and chart in real-time.
 
@@ -351,8 +378,6 @@ Also note how the `subscribe` method below automatically binds the subscription 
 
 This will update the React state using the GraphQL subscription we added to the `schema.graphql` file [above](#add-castvote-to-your-graphql-schema), and again is updated and managed automatically by the Framework.
 
-## Where to from here?
-
 ### Add authentication
 
 - Its really easy to add authentication using Amplify and [Amazon Cognito](https://aws.amazon.com/cognito/). In a [few lines of code](https://aws-amplify.github.io/docs/js/authentication#automated-setup) you will be able to add an authentication step so that only logged-in users can access your application.
@@ -361,7 +386,7 @@ This will update the React state using the GraphQL subscription we added to the 
 
 - You can also very easily deploy the application using [AWS Amplify Console](https://aws.amazon.com/amplify/console/). Here are some [examples](https://aws.amazon.com/amplify/console/getting-started/) that demonstrate how to do this.
 
-## Further reading
+### Further reading
 
 - AWS Amplify framework: [https://aws-amplify.github.io/ ](https://aws-amplify.github.io/)
 - AWS Amplify product page: [https://aws.amazon.com/amplify/ ](https://aws.amazon.com/amplify/)
@@ -371,6 +396,5 @@ This will update the React state using the GraphQL subscription we added to the 
 
 ---
 
-<a name="fnote1">[1.](#fnote_ref_1)</a> A resolver is a function that converts the GraphQL payload to the underlying storage system protocol and executes if the caller is authorised to invoke it. Resolvers are comprised of **request** and **response mapping** templates, which contain transformation and execution logic. AWS AppSync uses [mapping templates](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-mapping-template-reference.html#aws-appsync-resolver-mapping-template-reference), which are written with the [Apache Velocity Template Language (VTL)](https://velocity.apache.org/) and interpreted by AWS AppSync. There is a [resolver mapping template programming guide](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-mapping-template-reference-programming-guide.html#aws-appsync-resolver-mapping-template-reference-programming-guide) in the [AWS AppSync Developer Guide](https://docs.aws.amazon.com/appsync/latest/devguide/welcome.html) that covers how to write resolvers in detail.
-
-<a name="fnote2">[2.](#fnote_ref_2)</a> See [Amplify Framework Custom Resolvers](https://aws-amplify.github.io/docs/cli/graphql#add-a-custom-resolver-that-targets-a-dynamodb-table-from-model). You also get the benefit of using [DynamoDB atomic counters](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithItems.html#WorkingWithItems.AtomicCounters)
+1. <a name="fnote1"></a> A resolver is a function that converts the GraphQL payload to the underlying storage system protocol and executes if the caller is authorised to invoke it. Resolvers are comprised of **request** and **response mapping** templates, which contain transformation and execution logic. AWS AppSync uses [mapping templates](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-mapping-template-reference.html#aws-appsync-resolver-mapping-template-reference), which are written with the [Apache Velocity Template Language (VTL)](https://velocity.apache.org/) and interpreted by AWS AppSync. There is a [resolver mapping template programming guide](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-mapping-template-reference-programming-guide.html#aws-appsync-resolver-mapping-template-reference-programming-guide) in the [AWS AppSync Developer Guide](https://docs.aws.amazon.com/appsync/latest/devguide/welcome.html) that covers how to write resolvers in detail.[↩︎](#fnote_ref_1)
+2. <a name="fnote2"></a> See [Amplify Framework Custom Resolvers](https://aws-amplify.github.io/docs/cli/graphql#add-a-custom-resolver-that-targets-a-dynamodb-table-from-model). You also get the benefit of using [DynamoDB atomic counters](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithItems.html#WorkingWithItems.AtomicCounters)[↩︎](#fnote_ref_2)
