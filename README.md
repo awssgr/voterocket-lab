@@ -125,6 +125,7 @@ amplify push
 - Choose the code generation language target: `JavaScript`
 - Enter the file name pattern of graphql queries, mutations and subscriptions: `(src/graphql/**/*.js)`
 - Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions? `Y`
+- Enter maximum statement depth (increase from default if your schema is deeply nested): `2`
 
 The generated GraphQL (via the `@model` directive can be found in `amplify/backend/api/voterocket/build/schema.graphql`
 
@@ -204,9 +205,9 @@ aws dynamodb update-item \
 
 For our GraphQL API to execute a similar `update-item` we need to create a custom resolver<sup><a name="fnote_ref_2">[2.](#fnote2)</a></sup>.
 
-### Add `castVote` to your GraphQL schema
+### Append `castVote` to your GraphQL schema
 
-Add the following to your `schema.graphql`:
+Append the following to your `schema.graphql`:
 
 ```graphql
 input CastVoteInput {
@@ -248,17 +249,16 @@ Run `amplify push` to provision the custom resolvers.
 You will be asked:
 
 - Do you want to update code for your updated GraphQL API `Yes`
-- Do you want to generate GraphQL statements (queries, mutations and subscription) based on your schema types
-- This will overwrite your current graphql queries, mutations and subscriptions `Yes`
+- Do you want to generate GraphQL statements (queries, mutations and subscription) based on your schema types. This will overwrite your current graphql queries, mutations and subscriptions `Yes`
 
-Two things will happen behind the scenes:
+Two things will then happen behind the scenes:
 
 - The custom resolvers will be added to the `amplify/backend/api/voterocket/build/resolvers/` along with the other auto-generated resolvers implied from the `Candidate`'s `@model` directive earlier.
 - Amplify's generated queries, mutations and subscriptions Javascript source in `./src/graphql/` will be updated to reflect the new `castVote` functionality.
 
 ### Test the resolver in the AWS AppSync console
 
-If you'd like to test the new resolver, navigate to the AWS AppSync console, open your API & then click on **Queries**.
+If you'd like to test the new resolver, navigate to the AWS AppSync console, open your API & then click on **Queries**. If you were already on this page in your browser, hit refresh to update the AWS console's state based on the new resolvers.
 
 Paste the following into the console and run it (note to use an `id` of a valid candidate in your database). You can find a valid `id` (UUID) by running the `listCandidates` GraphQL query as above.
 
