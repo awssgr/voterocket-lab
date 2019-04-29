@@ -21,13 +21,21 @@ This lab assumes the following:
 
 - It's being executed in an [AWS Cloud9](https://aws.amazon.com/cloud9/) instance provided by the lab co-ordinator.
 - This repository has been cloned into the default `~/environment` directory at `~/environment/voterocket-lab`
-- The `~/environment/voterocket-lab/setup.sh` script has been executed to install and configure dependencies.
 
 ## If you get stuck or get an error
 
 - In case you get stuck or need a reference to compare your implementation with, the full source is available at [https://github.com/awssgr/voterocket](https://github.com/awssgr/voterocket).
 - Ask your lab co-ordinator for help.
 - [Raise an issue](https://github.com/awssgr/voterocket-lab/issues/new) explaining the problem.
+
+## Set up
+
+Run the following to get started. This will configure the environment and clean any artifacts from this lab being run previously.
+
+```bash
+cd ~/environment/voterocket-lab
+./setup.sh
+```
 
 ## Installing the CLI & initialising a new AWS Amplify project
 
@@ -47,7 +55,7 @@ npm install -g @aws-amplify/cli
 cd ~/environment
 ```
 
-Next, create a new React app using the [Create React App CLI](https://github.com/facebook/create-react-app). The `create-react-app` library will have been pre-installed by your lab co-ordinator.
+Next, create a new React app using the [Create React App CLI](https://github.com/facebook/create-react-app). The `create-react-app` library was installed when you ran `setup.sh` earlier.
 
 ```bash
 create-react-app voterocket
@@ -76,7 +84,7 @@ Please tell us about your project
 - Start Command: `npm run-script start`
 - Do you want to use an AWS profile? `Yes`
 - Please choose the profile you want to use: `> default`. 
-  Choose `default` - (The `default` profile should have been configured by your lab co-ordinator)
+  Choose `default` - (The `default` profile was configured when you ran `setup.sh` above)
 
 The AWS Amplify CLI will initialise a new project inside your React project & you will see a new folder: `amplify`. The files in this folder hold your project configuration.
 
