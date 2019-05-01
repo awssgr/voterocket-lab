@@ -30,6 +30,16 @@ This lab assumes the following:
 
 ## Set up
 
+- Go to to AWS Console
+- Check to see that you are in US East (N. Virginia) in the top right-hand corner.
+- Go to **Cloud9**
+- Go to **Account Environments**.
+- Select **Open IDE** for **AWS Ampligy Framework Lab**:
+
+![](./images/cloud9.png)
+
+After you have opened the IDE, open a new terminal.
+
 Run the following to get started. This will configure the environment and clean any artifacts from this lab being run previously.
 
 ```bash
