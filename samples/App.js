@@ -109,7 +109,7 @@ class Candidate extends Component {
         onClick={() =>
           this.handleSubmit(this.props)
         }>
-        {this.props.name}: <b>{this.props.votes}</b>
+        <b>{this.props.name}</b> <p className="py-1"><b>{this.props.votes}</b></p>
       </button>
     );
   }
